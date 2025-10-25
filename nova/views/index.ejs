@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenido - Nova Salud</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    .hero {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(135deg, #2563eb, #0ea5e9);
+      color: white;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+    .hero p {
+      font-size: 1.1rem;
+      max-width: 500px;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 20px;
+    }
+    .btn {
+      background: white;
+      color: #2563eb;
+      padding: 12px 25px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: all 0.2s ease;
+    }
+    .btn:hover {
+      background: #f5f6fa;
+      transform: translateY(-2px);
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: rgba(255,255,255,0.8);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <section class="hero">
+    <h1>Bienvenido a Nova Salud</h1>
+    <p>Administra tu inventario, ventas y atención al cliente desde un solo lugar, con una interfaz rápida y segura.</p>
+    <div class="hero-buttons">
+      <a href="/auth/login" class="btn">Iniciar Sesión</a>
+      <a href="/auth/register" class="btn">Registrarse</a>
+    </div>
+    <footer>© 2025 Nova Salud — Sistema de Gestión</footer>
+  </section>
+</body>
+</html>

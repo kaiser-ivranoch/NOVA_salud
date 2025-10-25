@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Nova Salud</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f6f8;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #007bff;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+    main {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px;
+      text-align: center;
+    }
+    h3 {
+      color: #007bff;
+    }
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #eaeaea;
+      margin-top: 20px;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Panel de Control - Nova Salud</h1>
+    <nav>
+      <a href="/inventory">Inventario</a>
+      <a href="/sales">Ventas</a>
+      <a href="/auth/logout">Cerrar sesión</a>
+    </nav>
+  </header>
+
+  <main>
+    <div class="card">
+      <h3>Total de ventas</h3>
+      <p id="ventasTotales">Cargando...</p>
+    </div>
+    <div class="card">
+      <h3>Productos registrados</h3>
+      <p id="productosTotales">Cargando...</p>
+    </div>
+    <div class="card">
+      <h3>Productos con bajo stock</h3>
+      <p id="bajoStock">Cargando...</p>
+    </div>
+    <div class="card">
+      <h3>Producto más vendido</h3>
+      <p id="masVendido">Cargando...</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 Nova Salud - Sistema de gestión</p>
+  </footer>
+
+  <script>
+    async function cargarEstadisticas() {
+      try {
+        const res = await fetch('/dashboard/data')
+        const data = await res.json()
+        document.getElementById('ventasTotales').textContent = `S/ ${data.totalVentas.toFixed(2)}`
+        document.getElementById('productosTotales').textContent = data.totalProductos
+        document.getElementById('bajoStock').textContent = data.bajoStock
+        document.getElementById('masVendido').textContent = data.masVendido || 'N/A'
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    cargarEstadisticas()
+  </script>
+</body>
+</html>

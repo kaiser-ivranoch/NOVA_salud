@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Inventario</title>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f6f8fa;
+      color: #333;
+      padding: 20px;
+    }
+    h1 {
+      color: #004aad;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color: #007bff;
+      color: white;
+    }
+    tr:hover {
+      background-color: #f1f1f1;
+    }
+    .low-stock {
+      background-color: #ffe6e6;
+    }
+    form {
+      margin-top: 10px;
+    }
+    input, button {
+      padding: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .alerta {
+      color: red;
+      margin-top: 20px;
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav a {
+      margin-left: 10px;
+      text-decoration: none;
+      color: #007bff;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Inventario</h1>
+    <nav>
+      <span>Usuario: <%= user.email %></span> |
+      <a href="/dashboard">Dashboard</a> |
+      <a href="/auth/logout">Cerrar sesión</a>
+    </nav>
+  </header>
+
+  <section>
+    <h2>Agregar producto</h2>
+    <form action="/inventory/add" method="POST">
+      <input type="text" name="nombre" placeholder="Nombre" required>
+      <input type="text" name="categoria" placeholder="Categoría" required>
+      <input type="number" step="0.01" name="precio" placeholder="Precio" required>
+      <input type="number" name="stock" placeholder="Stock actual" required>
+      <input type="number" name="stockMinimo" placeholder="Stock mínimo" required>
+      <button type="submit">Guardar</button>
+    </form>
+  </section>
+
+  <section>
+    <h2>Productos registrados</h2>
+    <table>
+      <tr>
+        <th>Nombre</th>
+        <th>Categoría</th>
+        <th>Precio (S/)</th>
+        <th>Stock</th>
+        <th>Mínimo</th>
+        <th>Acciones</th>
+      </tr>
+      <% productos.forEach(p => { %>
+        <tr class="<%= p.stock <= p.stockMinimo ? 'low-stock' : '' %>">
+          <td><%= p.nombre %></td>
+          <td><%= p.categoria %></td>
+          <td><%= p.precio.toFixed(2) %></td>
+          <td><%= p.stock %></td>
+          <td><%= p.stockMinimo %></td>
+          <td>
+            <form action="/inventory/edit/<%= p._id %>" method="POST" style="display:inline;">
+              <input type="number" name="stock" value="<%= p.stock %>" style="width:60px;">
+              <button type="submit">Actualizar</button>
+            </form>
+            <a href="/inventory/delete/<%= p._id %>" style="color:red;">Eliminar</a>
+          </td>
+        </tr>
+      <% }) %>
+    </table>
+
+    <% if (alertas.length > 0) { %>
+      <div class="alerta">
+        <h3>⚠ Productos con bajo stock:</h3>
+        <ul>
+          <% alertas.forEach(a => { %>
+            <li><strong><%= a.nombre %></strong> (Stock actual: <%= a.stock %>)</li>
+          <% }) %>
+        </ul>
+      </div>
+    <% } %>
+  </section>
+</body>
+</html>
